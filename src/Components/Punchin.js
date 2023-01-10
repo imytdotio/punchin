@@ -1,5 +1,6 @@
 import React from "react";
-import { H1, Button } from "./Components";
+import { H1, Task, Button } from "./Components";
+import { Todo } from "./Todo";
 
 /**
  * @author
@@ -16,6 +17,7 @@ export const Punchin = (props) => {
       <p>Role: {role}</p>
       <Button>Check in</Button>
       <Button>Check out</Button>
+      <Todo user={name} />
     </div>
   );
 };

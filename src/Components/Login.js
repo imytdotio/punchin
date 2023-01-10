@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, Form } from "./Components";
+import { Button, ButtonOutline, Input, Form } from "./Components";
 
 /**
  * @author
@@ -24,8 +24,12 @@ export const Login = (props) => {
           password: <Input type="password" />
         </label>
         <br />
-        <Button onClick={LoginHandler}>Login</Button>
-        <Button onClick={SignupHandler}>Signup</Button>
+        <ButtonOutline style="outline" onClick={SignupHandler}>
+          Sign up
+        </ButtonOutline>
+        <Button style="outline" onClick={LoginHandler}>
+          Login
+        </Button>
       </Form>
     </div>
   );

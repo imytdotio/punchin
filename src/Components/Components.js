@@ -34,18 +34,22 @@ export const Button = (props) => {
   return (
     <button
       onClick={props.onClick}
-      className="bg-blue-600 inline-block m-2 text-white py-2 px-6 rounded-xl"
+      // className="bg-blue-600 inline-block hover:bg-blue-700 hover:shadow-md  duration-200 m-2 text-white py-2 px-6 rounded-xl"
+      className="bg-blue-600 inline-block hover:bg-blue-700 hover:shadow-md  duration-200 m-2 text-white py-2 px-6 rounded-xl"
     >
       {props.children}
     </button>
   );
 };
 
-export const Task = (props) => {
+export const ButtonOutline = (props) => {
   return (
-    <div className="flex gap-2">
-      {props.isCompleted ? <p>☑️</p> : <p>👀</p>}
-      <p>{props.name}</p>
-    </div>
+    <button
+      onClick={props.onClick}
+      className="text-blue-600 border-blue-600 border hover:bg-gray-100 hover:shadow-md duration-200 inline-block m-2 text-white py-2 px-6 rounded-xl"
+    >
+      {props.children}
+    </button>
   );
 };
+
