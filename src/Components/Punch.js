@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Hooks/AuthContext";
 import { Button } from "./Components";
 import { supabase } from "../supabaseClient";
@@ -10,8 +10,36 @@ import { supabase } from "../supabaseClient";
 
 export const Punch = (props) => {
   const { user, isAuthenticated } = useContext(AuthContext);
+  const [punchInTime, setpunchInTime] = useState(null);
+  const [punchOutTime, setpunchOutTime] = useState(null);
 
-  const checkInHandler = async (e) => {
+  const getPunchedTime = async () => {
+    const today = new Date();
+    const date = `${today.getFullYear()}-${
+      today.getMonth() + 1
+    }-${today.getDate()}`;
+
+    const { data, error } = await supabase
+      .from("PunchLog")
+      .select()
+      .eq("uid", user.id)
+      .eq("date", date);
+
+    if (data) {
+      setpunchInTime(data[0].punchIn);
+      setpunchOutTime(data[0].punchOut);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPunchedTime();
+  }, []);
+
+  const punchInHandler = async (e) => {
     e.preventDefault();
     const today = new Date();
     const date = `${today.getFullYear()}-${
@@ -24,11 +52,12 @@ export const Punch = (props) => {
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
     const { data, error } = await supabase
-      .from("Checkin")
-      .insert({ uid: user.id, date, checkin: time })
+      .from("PunchLog")
+      .insert({ uid: user.id, date, punchIn: time })
       .select();
     if (data) {
-      console.log(data);
+      //   console.log(data);
+      getPunchedTime();
     }
 
     if (error) {
@@ -36,7 +65,7 @@ export const Punch = (props) => {
     }
   };
 
-  const checkOutHandler = async (e) => {
+  const punchOutHandler = async (e) => {
     e.preventDefault();
 
     const today = new Date();
@@ -46,14 +75,15 @@ export const Punch = (props) => {
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
     const { data, error } = await supabase
-      .from("Checkin")
-      .update({ checkout: time })
+      .from("PunchLog")
+      .update({ punchOut: time })
       .eq("uid", user.id)
       .eq("date", date)
       .select();
 
     if (data) {
-      console.log(data[0].checkin);
+      //   console.log(data);
+      getPunchedTime();
     }
     if (error) {
       console.log(error);
@@ -64,11 +94,33 @@ export const Punch = (props) => {
     <>
       {isAuthenticated ? (
         <div>
-          <Button onClick={checkInHandler}>Check in</Button>
-          <Button onClick={checkOutHandler}>Check out</Button>
+          <Button
+            onClick={punchInHandler}
+            disabled={punchInTime ? true : false}
+            className={
+              punchInTime
+                ? "bg-gray-200 text-black hover:bg-gray-200 hover:text-black hover:shadow-none cursor-not-allowed"
+                : ""
+            }
+          >
+            {punchInTime ? "Punched in" : "Punch in"}
+          </Button>
+          <Button
+            onClick={punchOutHandler}
+            disabled={punchOutTime ? true : false}
+            className={
+              punchOutTime
+                ? "bg-gray-200 text-black hover:bg-gray-200 hover:text-black hover:shadow-none cursor-not-allowed"
+                : ""
+            }
+          >
+            {punchOutTime ? "Punched out" : "Punch out"}
+          </Button>
+          {punchInTime && <p>Punched In: {punchInTime}</p>}
+          {punchOutTime && <p>Punched Out: {punchOutTime}</p>}
         </div>
       ) : (
-        <div>No</div>
+        <></>
       )}
     </>
   );
