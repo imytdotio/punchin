@@ -8,7 +8,7 @@ import { Button, ButtonOutline, Form, H1, Input } from "./Components";
 
 const TodoBlock = (props) => {
   return (
-    <li className="flex gap-2 m-1 px-2 py-1">
+    <li className="flex gap-2 m-1 py-1 w-full">
       {props.isCompleted ? (
         <p className="cursor-pointer" onClick={() => props.onCheck(props.id)}>
           ☑️
@@ -38,7 +38,10 @@ export const Todo = (props) => {
   const [error, setError] = useState(null);
 
   const getTodos = async () => {
-    const { data, error } = await supabase.from("todos").select();
+    const { data, error } = await supabase
+      .from("todos")
+      .select()
+      .eq("uid", props.id);
     if (error) {
       setError(error.message);
       console.log(error);
@@ -63,7 +66,7 @@ export const Todo = (props) => {
 
     const { data, error } = await supabase
       .from("todos")
-      .insert([{ title }])
+      .insert([{ title, uid: props.id }])
       .select();
 
     if (error) {
@@ -115,10 +118,15 @@ export const Todo = (props) => {
       {error && <p>{error}</p>}
       <Form>
         <Input onChange={(e) => setNewTodo(e.target.value)} />
-        <ButtonOutline onClick={addTodo}>Add</ButtonOutline>
+        <ButtonOutline
+          onClick={addTodo}
+          className="w-full hover:bg-blue-600 hover:text-white"
+        >
+          Add
+        </ButtonOutline>
       </Form>
       {todos && (
-        <React.Fragment>
+        <>
           {todos.map((todo) => {
             return (
               <TodoBlock
@@ -130,7 +138,7 @@ export const Todo = (props) => {
               />
             );
           })}
-        </React.Fragment>
+        </>
       )}
       {/* {tasks.map((task) => {
         return (

@@ -47,7 +47,7 @@ export const ButtonOutline = (props) => {
   return (
     <button
       onClick={props.onClick}
-      className="text-blue-600 border-blue-600 border hover:bg-gray-100 hover:shadow-md duration-200 inline-block m-2 text-white py-2 px-6 rounded-xl"
+      className={`text-blue-600 border-blue-600 border hover:bg-gray-100 hover:shadow-md duration-200 inline-block m-2 text-white py-2 px-6 rounded-xl ${props.className}`}
     >
       {props.children}
     </button>

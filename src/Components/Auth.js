@@ -16,7 +16,7 @@ export const Auth = (props) => {
   const [password, setPassword] = useState("");
 
   return (
-    <div>
+    <div className="">
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -63,7 +63,6 @@ export const Auth = (props) => {
             Login
           </Button>
         )}
-        {isAuthenticated ? <p>{user.user.email}</p> : ""}
         {error ? <p className="text-red-600">{error.message}</p> : ""}
       </Form>
     </div>

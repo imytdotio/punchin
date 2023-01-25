@@ -6,10 +6,10 @@ import { H1 } from "./Components/Components";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App ">
       <H1>Punchin</H1>
       <Auth />
-      {/* <Account /> */}
+      <Account />
     </div>
   );
 }

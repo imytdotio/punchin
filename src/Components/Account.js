@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { H1, Button } from "./Components";
 import { Todo } from "./Todo";
 import { supabase } from "../supabaseClient";
+import { AuthContext } from "../Hooks/AuthContext";
+import { Punch } from "./Punch";
 
 /**
  * @author
@@ -9,19 +11,19 @@ import { supabase } from "../supabaseClient";
  **/
 
 export const Account = ({ session }) => {
-  // const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState("Nordac");
-  const [role, setRole] = useState("Designer Intern");
-
-  
+  const { user, isAuthenticated } = useContext(AuthContext);
 
   return (
-    <div>
-      <H1>Hi, {username}</H1>
-      <p>Role: {role}</p>
-      <Button>Check in</Button>
-      <Button>Check out</Button>
-      <Todo/>
-    </div>
+    <>
+      {isAuthenticated ? (
+        <div>
+          <H1>Hi, {user.email}</H1>
+          <Punch />
+          <Todo id={user.id} />
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };

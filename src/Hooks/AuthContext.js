@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -34,7 +35,8 @@ export const AuthProvider = (props) => {
     });
     if (data) {
       console.log(data);
-      setUser(data);
+      setUser(data.user);
+      setSession(data.session);
       setError(null);
       setIsAuthenticated(true);
     }
@@ -64,6 +66,7 @@ export const AuthProvider = (props) => {
         signUp,
         signIn,
         signOut,
+        session,
         error,
       }}
     >
