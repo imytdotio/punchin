@@ -6,12 +6,12 @@ import React from "react";
  **/
 
 export const H1 = (props) => {
-  return <h1 className="font-bold">{props.children}</h1>;
+  return <h1 className="font-bold text-center">{props.children}</h1>;
 };
 
 export const Form = (props) => {
   return (
-    <form onSubmit={props.onSubmit} className="mx-auto w-fit">
+    <form onSubmit={props.onSubmit} className="mx-auto w-fit flex-col">
       {props.children}
     </form>
   );
@@ -20,7 +20,8 @@ export const Form = (props) => {
 export const Input = (props) => {
   return (
     <input
-      className="inline-block my-1 text-left"
+      className="block my-1 text-left border-b rounded p-2"
+      placeholder={props.placeholder}
       type={props.type}
       onChange={props.onChange}
       onBlur={props.onBlur}
@@ -52,4 +53,3 @@ export const ButtonOutline = (props) => {
     </button>
   );
 };
-
